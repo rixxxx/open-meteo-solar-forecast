@@ -74,12 +74,14 @@ class Estimate:
     Attributes
     ----------
         watts: Estimated solar power output per time period.
+        wh_period: Estimated solar energy production differences per time period.
         wh_hours: Estimated solar energy production differences per hour.
         wh_days: Estimated solar energy production per day.
 
     """
 
     watts: dict[dt.datetime, int]
+    wh_period: dict[dt.datetime, int]
     wh_hours: dict[dt.datetime, int]
     wh_days: dict[dt.datetime, int]
     api_timezone: dt.timezone
