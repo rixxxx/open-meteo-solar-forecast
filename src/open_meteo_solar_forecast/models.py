@@ -74,13 +74,13 @@ class Estimate:
     Attributes
     ----------
         watts: Estimated solar power output per time period.
-        wh_period: Estimated solar energy production differences per hour.
+        wh_hours: Estimated solar energy production differences per hour.
         wh_days: Estimated solar energy production per day.
 
     """
 
     watts: dict[dt.datetime, int]
-    wh_period: dict[dt.datetime, int]
+    wh_hours: dict[dt.datetime, int]
     wh_days: dict[dt.datetime, int]
     api_timezone: dt.timezone
 
@@ -131,7 +131,7 @@ class Estimate:
             self.now().replace(minute=0, second=0, microsecond=0),
             self.now().replace(minute=0, second=0, microsecond=0)
             + dt.timedelta(hours=1),
-            self.wh_period,
+            self.wh_hours,
         )
 
     def day_production(self, specific_date: dt.date) -> int:
@@ -166,4 +166,4 @@ class Estimate:
         now = self.now().replace(minute=59, second=59, microsecond=999)
         until = now + dt.timedelta(hours=period_hours)
 
-        return _interval_value_sum(now, until, self.wh_period)
+        return _interval_value_sum(now, until, self.wh_hours)

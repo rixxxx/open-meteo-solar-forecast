@@ -401,24 +401,24 @@ class OpenMeteoSolarForecast:
             w_inst[time] = min(w_inst[time], ac_wp)
 
         # Calculate the average power generated per hour
-        wh_period: dict[dt, int] = {}
-        wh_period_count: dict[dt, int] = {}
+        wh_hours: dict[dt, int] = {}
+        wh_hours_count: dict[dt, int] = {}
         for time, power in w_avg.items():
             hour = time.replace(minute=0, second=0, microsecond=0)
-            wh_period[hour] = wh_period.get(hour, 0) + power
-            wh_period_count[hour] = wh_period_count.get(hour, 0) + 1
-        for time in wh_period:
-            wh_period[time] /= wh_period_count[time]
+            wh_hours[hour] = wh_hours.get(hour, 0) + power
+            wh_hours_count[hour] = wh_hours_count.get(hour, 0) + 1
+        for time in wh_hours:
+            wh_hours[time] /= wh_hours_count[time]
 
         # Calculate the total energy produced per day
-        for time, power in wh_period.items():
+        for time, power in wh_hours.items():
             day = time.date()
             wh_days[day] = wh_days.get(day, 0) + power
 
         # Return the estimate object
         return Estimate(
             watts=w_inst,
-            wh_period=wh_period,
+            wh_hours=wh_hours,
             wh_days=wh_days,
             api_timezone=timezone(timedelta(seconds=utc_offset)),
         )
