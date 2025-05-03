@@ -44,6 +44,8 @@ class OpenMeteoSolarForecast:
     damping_evening: float | list[float] = 0.0
     efficiency_factor: float | list[float] = 1.0
 
+    timezone: str = 'auto'
+
     session: ClientSession | None = None
     _close_session: bool = False
 
@@ -311,7 +313,7 @@ class OpenMeteoSolarForecast:
                 "daily": "sunrise,sunset",
                 "forecast_days": str(self.forecast_days),
                 "past_days": str(self.past_days),
-                "timezone": "auto",
+                "timezone": str(self.timezone),
             }
             data = await self._request(
                 "/v1/forecast",
